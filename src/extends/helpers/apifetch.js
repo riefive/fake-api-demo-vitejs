@@ -25,9 +25,22 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 			headers.append('Content-Type', 'application/json')
 			options.body = JSON.stringify(bodies)
 		}
-		if (/object/i.test(type)) {
+		if (/file/i.test(type)) {
 			const formData = new FormData()
 			for (let key in bodies) formData.append(key, bodies[key])
+			options.body = formData
+		}
+		if (/file-multi/i.test(type)) {
+			const formData = new FormData()
+			for (let key in bodies) {
+				if (key === 'files') continue
+				formData.append(key, bodies[key])
+			}
+			if (bodies?.files) {
+				for (const [i, file] of Array.from(bodies.files).entries()) {
+					formData.append(`file_${i}`, file)
+				}
+			}
 			options.body = formData
 		}
 	}
