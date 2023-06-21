@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, shallowRef } from 'vue'
+import { RouterView } from 'vue-router'
 import { initializedApp } from '@/extends/scripts/app_script'
 import LayoutBlank from '@/components/layouts/LayoutBlank.vue'
 
@@ -24,5 +25,7 @@ onMounted(async () => {
 </script>
 
 <template>
-	<layout-view v-show="!loading" />
+	<layout-view v-show="!loading">
+		<router-view />
+	</layout-view>
 </template>
