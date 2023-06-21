@@ -1,11 +1,7 @@
 <script setup>
-import HelloWorld from '@/components/HelloWorld.vue';
-import HelloWorldDemo from '@/components/HelloWorldDemo.vue';
+import HelloWorld from '@/components/HelloWorld.vue'
 </script>
 
 <template>
-  <hello-world-demo />
-  <div class="flex flex-col justify-center items-center gap-1">
-    <hello-world />
-  </div>
+	<hello-world />
 </template>
