@@ -34,12 +34,12 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 	options.headers = headers
 	options.signal = AbortSignal.timeout(Number(timeout) * 1000)
 
-	const results = null
+	let results = null
 	try {
 		let data = null
 		const response = await fetch(url, options)
 		const contentType = response.headers.get('content-type')
-		const details = { status: response.status, statusText: response.statusText, url: response.url, type: contentType }
+		const details = { url: response.url, status: response.status, statusText: response.statusText, type: contentType }
 		if (contentType.includes('application/json')) {
 			data = await response.json()
 		} else if (/image|msword|ms-excel|openxml|csv|pdf/i.test(contentType)) {
@@ -49,15 +49,15 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 		} else {
 			data = await response.text()
 		}
-		if (!response.ok) {
-			throw new TypeError(Object.assign(details, { data }))
-		} else {
+		if (response.ok) {
 			details.redirected = response.redirected
-			details.data = data
+		} else {
+			details.isError = true
 		}
+		Object.assign(details, { data })
 		results = details
 	} catch (error) {
-		results = error
+		results = { url, status: 0, statusText: error?.message || error.toString(), isError: true }
 	}
 	return results
 }
