@@ -12,9 +12,12 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 	const token = settings?.token || null
 	const tokenType = settings?.tokenType || 'Bearer'
 	const cacheType = settings?.cache || 'default' // default | no-cache
-	if (token) {
-		headers.append('Authorization', `${tokenType} ${token}`)
-	}
+	const credentialType = settings?.credential || null // include, same-origin, omit
+	const modeType = settings?.mode || null // same-origin, no-cors, cors
+	if (token) headers.append('Authorization', `${tokenType} ${token}`)
+	if (cacheType) options.cache = cacheType
+	if (credentialType) options.credential = credentialType
+	if (modeType) options.mode = modeType
 	if (method === 'get') {
 		url += bodies && Object.keys(bodies).length > 0 ? '?' + new URLSearchParams(params).toString() : ''
 	} else if (['post', 'put', 'patch'].includes(method)) {
@@ -28,9 +31,35 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 			options.body = formData
 		}
 	}
-	options.cache = cacheType
 	options.headers = headers
 	options.signal = AbortSignal.timeout(Number(timeout) * 1000)
+
+	const results = null
+	try {
+		let data = null
+		const response = await fetch(url, options)
+		const contentType = response.headers.get('content-type')
+		const details = { status: response.status, statusText: response.statusText, url: response.url, type: contentType }
+		if (contentType.includes('application/json')) {
+			data = await response.json()
+		} else if (/image|msword|ms-excel|openxml|csv|pdf/i.test(contentType)) {
+			const blob = await response.blob()
+			const blobToUrl = URL.createObjectURL(blob)
+			data = { blob, url: blobToUrl }
+		} else {
+			data = await response.text()
+		}
+		if (!response.ok) {
+			throw new TypeError(Object.assign(details, { data }))
+		} else {
+			details.redirected = response.redirected
+			details.data = data
+		}
+		results = details
+	} catch (error) {
+		results = error
+	}
+	return results
 }
 
 export { apiFetch }
