@@ -4,7 +4,7 @@ import Navbar from '@/components/templates/Navbar.vue'
 
 <template>
 	<div class="relative flex flex-row min-h-screen">
-		<aside class="bg-neutral w-[10%]"></aside>
+		<aside class="bg-neutral w-[10%] small:hidden"></aside>
 		<div class="flex flex-col flex-grow">
 			<header><navbar /></header>
 			<main class="flex-auto flex-grow"><slot /></main>
