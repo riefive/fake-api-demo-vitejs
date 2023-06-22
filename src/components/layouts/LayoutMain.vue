@@ -17,7 +17,9 @@ import Navbar from '@/components/templates/Navbar.vue'
 						<menubar :is-arrow="true" />
 					</div>
 				</drawer>
-				<slot />
+				<div class="overflow-x-auto">
+					<slot />
+				</div>
 			</main>
 			<footer></footer>
 		</div>
