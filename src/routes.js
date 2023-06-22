@@ -23,23 +23,8 @@ const routes = Object.keys(pages).map((path) => {
 	}
 })
 
-try {
-	const alias = JSON.parse(import.meta.env.VITE_PATH_ALIAS || '')
-	if (alias && typeof alias === 'object') {
-		for (const key in alias) {
-			const element = alias[key]
-			const routeCurrent = routes.find((v) => v.name.trim() === element.trim()) || null
-			if (routeCurrent) {
-				const routeClone = Object.assign({}, routeCurrent)
-				routeClone.name = key
-				routeClone.path = String(routeClone.path || '').replace(element, key)
-				routes.push(routeClone)
-			}
-		}
-	}
-	routes.push({ name: 'not-allowed', path: '/notallowed', component: () => import('@/components/templates/NotAllowed.vue') })
-	routes.push({ name: 'not-found', path: '/:pathMatch(.*)*', component: () => import('@/components/templates/NotFound.vue') })
-} catch (error) {}
+routes.push({ name: 'not-allowed', path: '/notallowed', component: () => import('@/components/templates/NotAllowed.vue') })
+routes.push({ name: 'not-found', path: '/:pathMatch(.*)*', component: () => import('@/components/templates/NotFound.vue') })
 
 const router = createRouter({
 	history: createWebHistory(baseUrl),
