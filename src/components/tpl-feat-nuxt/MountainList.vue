@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { columns } from '@/extends/models/nuxt_beer_model'
-import { transformToClient } from '@/extends/scripts/nuxt_beer_script'
-import { requestNuxtBeer } from '@/extends/services/nuxt_service'
+import { columns } from '@/extends/models/nuxt_mountain_model'
+import { transformToClient } from '@/extends/scripts/nuxt_mountain_script'
+import { requestNuxtMountain } from '@/extends/services/nuxt_service'
 import { sleep } from '@/extends/helpers/utils'
 import TableShow from '@/components/commons/TableShow.vue'
 
@@ -11,7 +11,7 @@ const items = ref([])
 
 onMounted(async () => {
 	loading.value = true
-	const response = await requestNuxtBeer()
+	const response = await requestNuxtMountain()
 	if (response?.data) {
 		items.value = response?.data?.map((item, i) => {
 			const itemNewer = transformToClient(item)

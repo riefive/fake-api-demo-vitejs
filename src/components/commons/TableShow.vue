@@ -3,7 +3,8 @@ import { computed } from 'vue'
 
 const props = defineProps({
 	columns: { type: Array, default: () => [] },
-	items: { type: Array, default: () => [] }
+	items: { type: Array, default: () => [] },
+	loading: { type: Boolean, default: false }
 })
 
 const columnFilters = computed(() => {
@@ -12,7 +13,10 @@ const columnFilters = computed(() => {
 </script>
 
 <template>
-	<table class="table table-zebra table-pin-rows table-pin-cols">
+	<div v-if="props.loading" class="flex justify-center p-2">
+		<progress class="progress w-56"></progress>
+	</div>
+	<table v-else class="table table-zebra table-pin-rows table-pin-cols">
 		<thead>
 			<tr>
 				<th v-for="(col, i) in columnFilters" :key="i">
