@@ -1,0 +1,31 @@
+<script setup>
+import { onMounted, ref } from 'vue'
+import { columns } from '@/extends/models/nuxt_planet_model'
+import { transformToClient } from '@/extends/scripts/nuxt_planet_script'
+import { requestNuxtPlanet } from '@/extends/services/nuxt_service'
+import { sleep } from '@/extends/helpers/utils'
+import TableShow from '@/components/commons/TableShow.vue'
+
+const loading = ref(true)
+const items = ref([])
+
+onMounted(async () => {
+	loading.value = true
+	const response = await requestNuxtPlanet()
+	if (response?.data) {
+		items.value = response?.data?.map((item, i) => {
+			const itemNewer = transformToClient(item)
+			itemNewer.index = i + 1
+			return itemNewer
+		})
+	}
+	await sleep(100)
+	loading.value = false
+})
+</script>
+
+<template>
+	<div>
+		<table-show :columns="columns" :items="items" :loading="loading" />
+	</div>
+</template>

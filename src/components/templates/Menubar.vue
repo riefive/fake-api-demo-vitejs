@@ -8,7 +8,8 @@ const props = defineProps({
 	isArrow: { type: Boolean, default: false }
 })
 
-const onClicked = (path) => {
+const onClicked = (path, type) => {
+	if (type !== 'text') return
 	router.push(path === 'dashboard' ? '/' : `/${path}`)
 }
 </script>
@@ -18,8 +19,8 @@ const onClicked = (path) => {
 		<label for="my-drawer" class="drawer-button"><span class="mdil mdil-arrow-right text-[32px] text-white"></span></label>
 	</div>
 	<ul class="menu menu-md bg-gray-600 mt-[50px] p-2">
-		<li v-for="(menu, i) in menus" :key="i">
-			<span v-if="menu.type === 'text'" class="mdil" :class="menu.icon" @click="onClicked(menu.id)">
+		<li v-for="(menu, i) in menus" :key="i" @click="onClicked(menu.id, menu.type)">
+			<span v-if="menu.type === 'text'" class="mdil" :class="menu.icon">
 				<a>{{ menu.text }}</a>
 			</span>
 			<details v-else-if="menu.type === 'dropdown'" :open="false">
@@ -28,7 +29,7 @@ const onClicked = (path) => {
 					<a>{{ menu.text }}</a>
 				</summary>
 				<ul>
-					<li v-for="(subMenu, j) in menu.menus" :key="j" @click="onClicked(menu.id + '-' + subMenu.id)">
+					<li v-for="(subMenu, j) in menu.menus" :key="j" @click="onClicked(menu.id + '-' + subMenu.id, subMenu.type)">
 						<span class="mdil" :class="subMenu.icon">
 							<a>{{ subMenu.text }}</a>
 						</span>
