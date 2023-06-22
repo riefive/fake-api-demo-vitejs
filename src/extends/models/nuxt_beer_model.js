@@ -3,7 +3,7 @@ const columns = [
 	{ id: 'product_id', text: 'Id' },
 	{ id: 'beer_id', text: 'Beer Id', hidden: true },
 	{ id: 'name', text: 'Name' },
-	{ id: 'slug', text: 'Slug' },
+	{ id: 'slug', text: 'Slug', large: true },
 	{ id: 'category', text: 'Category' },
 	{ id: 'size', text: 'Size' },
 	{ id: 'abv', text: 'Abv' },
@@ -17,7 +17,7 @@ const columns = [
 	{ id: 'brewer', text: 'Brewer', hidden: true },
 	{ id: 'dir', text: 'Dir', hidden: true },
 	{ id: 'path', text: 'Path', hidden: true },
-	{ id: 'updatedAt', text: 'Updated At' }
+	{ id: 'updatedAt', text: 'Updated At', large: true }
 ]
 
 export { columns }
