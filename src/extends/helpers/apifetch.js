@@ -5,6 +5,9 @@ AbortSignal.timeout ??= function timeout(ms) {
 }
 
 const apiFetch = async (url, method, bodies = null, settings = null) => {
+	if (typeof window === 'undefined' || !window?.fetch) {
+		return { url, status: 0, statusText: 'Fetch is not support', isError: true }
+	}
 	const headers = new Headers()
 	const options = { method: method.toUpperCase() }
 	const type = settings?.type || 'text/plain'

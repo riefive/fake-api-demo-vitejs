@@ -4,12 +4,19 @@ import menus from '@/extends/settings/menus'
 
 const router = useRouter()
 
+const props = defineProps({
+	isArrow: { type: Boolean, default: false }
+})
+
 const onClicked = (path) => {
 	router.push(path === 'dashboard' ? '/' : `/${path}`)
 }
 </script>
 
 <template>
+	<div v-if="props.isArrow" class="flex justify-end">
+		<label for="my-drawer" class="drawer-button"><span class="mdil mdil-arrow-right text-[32px] text-white"></span></label>
+	</div>
 	<ul class="menu menu-md bg-gray-600 mt-[50px] p-2">
 		<li v-for="(menu, i) in menus" :key="i">
 			<span v-if="menu.type === 'text'" class="mdil" :class="menu.icon" @click="onClicked(menu.id)">
