@@ -14,7 +14,7 @@ const onClicked = (path) => {
 </script>
 
 <template>
-	<div v-if="props.isArrow" class="flex justify-end">
+	<div v-if="props.isArrow" class="flex justify-end h-[45px]">
 		<label for="my-drawer" class="drawer-button"><span class="mdil mdil-arrow-right text-[32px] text-white"></span></label>
 	</div>
 	<ul class="menu menu-md bg-gray-600 mt-[50px] p-2">

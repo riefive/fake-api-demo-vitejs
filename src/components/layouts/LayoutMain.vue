@@ -14,7 +14,7 @@ import Navbar from '@/components/templates/Navbar.vue'
 			<main class="flex-auto flex-grow p-2">
 				<drawer>
 					<div class="bg-gray-600 text-white w-[225px] h-full small:w-full">
-						<menubar />
+						<menubar :is-arrow="true" />
 					</div>
 				</drawer>
 				<slot />
