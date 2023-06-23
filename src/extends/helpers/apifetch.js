@@ -78,4 +78,42 @@ const apiFetch = async (url, method, bodies = null, settings = null) => {
 	return results
 }
 
-export { apiFetch }
+const apiRequest = (url) => {
+	return new Promise((resolve) => {
+		const results = { url, status: 0, statusText: null }
+		const request = new XMLHttpRequest()
+		request.open('GET', url, true)
+		request.setRequestHeader('Access-Control-Allow-Origin', '*')
+		request.onreadystatechange = () => {
+			if (request.readyState !== 4) {
+				results.statusText = 'not ready'
+				return resolve(results)
+			}
+			if (request.status === 200) {
+				results.status = 200
+				results.statusText = 'ok'
+			} else {
+				results.status = request.status
+				results.statusText = 'Image not found'
+			}
+			resolve(results)
+		}
+		request.send()
+	})
+}
+
+const checkRequestImage = (url) => {
+	return new Promise((resolve) => {
+		const requestImage = document.createElement('img')
+		requestImage.src = url
+		requestImage.onerror = (...args) => {
+			console.log(url, 'other type of error', args)
+			resolve({ url, status: 0, statusText: 'error load a image', isError: true })
+		}
+		requestImage.onload = () => {
+			resolve({ url, status: 200, statusText: 'image has loaded' })
+		}
+	})
+}
+
+export { apiFetch, apiRequest, checkRequestImage }
